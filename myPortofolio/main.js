@@ -1,9 +1,9 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import { setupCounter } from './counter.js'
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
+
+
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -22,24 +22,28 @@ const material = new THREE.MeshStandardMaterial({color: 0xFF6347});
 
 const torus = new THREE.Mesh(geometry,material);
 
-scene.add(torus);
+//scene.add(torus);
 
 const pointLight = new THREE.PointLight(0xffffff);
 
 const ambientLight = new THREE.AmbientLight(0xffffff);
-/*
-const objs = [];
-const fbxLoader = new THREE.FBXLoader();
-fbxLoader.load("./assets/Walking.fbx", model => {
-  const mixer = new THREE.AnimationMixer(model);
-  mixer.clipAction(model.animations[0].play());
-  scene.add(model); 
-  objs.push({model,mixer});
-    }
-      )
-https://pastebin.com/rUcx9TSq
 
-*/
+
+// Loading person into three
+const objLoader = new OBJLoader();
+objLoader.load(
+  'assets/person.obj',
+  (object) => {
+    scene.add(object);
+  },
+  (xhr) => {
+    console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+  },
+  (error) => {
+    console.log(error);
+  }
+)
+
 
 
 pointLight.position.set(10,10,10);
