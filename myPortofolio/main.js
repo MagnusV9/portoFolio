@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
 
 const scene = new THREE.Scene();
@@ -30,6 +31,7 @@ const ambientLight = new THREE.AmbientLight(0xffffff);
 
 
 // Loading person into three
+/*
 const objLoader = new OBJLoader();
 objLoader.load(
   'assets/person.obj',
@@ -43,6 +45,21 @@ objLoader.load(
     console.log(error);
   }
 )
+*/
+const fbxLoader = new FBXLoader(); // loader inn en karakter men uten noe materiale så den er derfor helt svart. 
+fbxLoader.load(                    // må også ha funksjon for å også faktisk starte animasjonen.
+  "assets/walking.fbx",
+  (object) => {
+    scene.add(object);
+  },
+  (xhr) => {
+    console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+  },
+  (error) => {
+    console.log(error)
+}
+
+);
 
 
 
